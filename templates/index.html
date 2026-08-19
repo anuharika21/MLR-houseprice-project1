@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>House Price Prediction</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            min-height: 100vh;
+
+            padding: 40px 15px;
+        }
+
+
+        .container {
+
+            max-width: 950px;
+
+            margin: auto;
+
+            background: white;
+
+            padding: 35px;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,0.25);
+        }
+
+
+        h1 {
+
+            text-align: center;
+
+            color: #333;
+
+            margin-bottom: 10px;
+        }
+
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #777;
+
+            margin-bottom: 30px;
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        label {
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+
+            color: #444;
+        }
+
+
+        input,
+        select {
+
+            padding: 12px;
+
+            border: 1px solid #ccc;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+
+        input:focus,
+        select:focus {
+
+            border-color: #667eea;
+
+            box-shadow:
+                0 0 5px
+                rgba(102,126,234,0.4);
+        }
+
+
+        .button-area {
+
+            text-align: center;
+
+            margin-top: 30px;
+        }
+
+
+        button {
+
+            width: 60%;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #667eea,
+                    #764ba2
+                );
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        button:hover {
+
+            opacity: 0.9;
+
+            transform: scale(1.01);
+        }
+
+
+        .result {
+
+            margin-top: 30px;
+
+            padding: 20px;
+
+            text-align: center;
+
+            border-radius: 12px;
+
+            background: #e8f5e9;
+
+            color: #1b5e20;
+        }
+
+
+        .result h2 {
+
+            margin: 0 0 10px 0;
+        }
+
+
+        .error {
+
+            margin-top: 30px;
+
+            padding: 15px;
+
+            text-align: center;
+
+            border-radius: 10px;
+
+            background: #ffebee;
+
+            color: #c62828;
+
+            font-weight: bold;
+        }
+
+
+        @media(max-width: 700px) {
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            button {
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <h1>
+        🏠 House Price Prediction
+    </h1>
+
+    <p class="subtitle">
+        Multiple Linear Regression
+    </p>
+
+
+    <form
+        action="/predict"
+        method="POST"
+    >
+
+
+        <div class="form-grid">
+
+
+            <!-- Year -->
+
+            <div class="form-group">
+
+                <label>
+                    Year
+                </label>
+
+                <input
+                    type="number"
+                    name="year"
+                    placeholder="Example: 2020"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Month -->
+
+            <div class="form-group">
+
+                <label>
+                    Month
+                </label>
+
+                <input
+                    type="number"
+                    name="month"
+                    min="1"
+                    max="12"
+                    placeholder="Example: 8"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Day -->
+
+            <div class="form-group">
+
+                <label>
+                    Day
+                </label>
+
+                <input
+                    type="number"
+                    name="day"
+                    min="1"
+                    max="31"
+                    placeholder="Example: 18"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Bedrooms -->
+
+            <div class="form-group">
+
+                <label>
+                    Bedrooms
+                </label>
+
+                <input
+                    type="number"
+                    name="bedrooms"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Bathrooms -->
+
+            <div class="form-group">
+
+                <label>
+                    Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    name="bathrooms"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Living Area -->
+
+            <div class="form-group">
+
+                <label>
+                    Living Area (sqft)
+                </label>
+
+                <input
+                    type="number"
+                    name="sqft_living"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Lot Area -->
+
+            <div class="form-group">
+
+                <label>
+                    Lot Area (sqft)
+                </label>
+
+                <input
+                    type="number"
+                    name="sqft_lot"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Floors -->
+
+            <div class="form-group">
+
+                <label>
+                    Floors
+                </label>
+
+                <input
+                    type="number"
+                    name="floors"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Waterfront -->
+
+            <div class="form-group">
+
+                <label>
+                    Waterfront
+                </label>
+
+                <select
+                    name="waterfront"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="0">
+                        No (0)
+                    </option>
+
+                    <option value="1">
+                        Yes (1)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- View -->
+
+            <div class="form-group">
+
+                <label>
+                    View
+                </label>
+
+                <input
+                    type="number"
+                    name="view"
+                    min="0"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Condition -->
+
+            <div class="form-group">
+
+                <label>
+                    Condition
+                </label>
+
+                <input
+                    type="number"
+                    name="condition"
+                    min="1"
+                    max="5"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Sqft Above -->
+
+            <div class="form-group">
+
+                <label>
+                    Sqft Above
+                </label>
+
+                <input
+                    type="number"
+                    name="sqft_above"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Sqft Basement -->
+
+            <div class="form-group">
+
+                <label>
+                    Sqft Basement
+                </label>
+
+                <input
+                    type="number"
+                    name="sqft_basement"
+                    step="any"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Year Built -->
+
+            <div class="form-group">
+
+                <label>
+                    Year Built
+                </label>
+
+                <input
+                    type="number"
+                    name="yr_built"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Year Renovated -->
+
+            <div class="form-group">
+
+                <label>
+                    Year Renovated
+                </label>
+
+                <input
+                    type="number"
+                    name="yr_renovated"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="form-group">
+
+                <label>
+                    City
+                </label>
+
+                <select
+                    name="city"
+                    required
+                >
+
+                    <option value="">
+                        Select City
+                    </option>
+
+                    <!--
+                    IMPORTANT:
+                    Change these numbers to match
+                    the City Mapping printed by model.py
+                    -->
+
+                    <option value="0">
+                        Seattle (0)
+                    </option>
+
+                    <option value="1">
+                        Renton (1)
+                    </option>
+
+                    <option value="2">
+                        Kent (2)
+                    </option>
+
+                    <option value="3">
+                        Bellevue (3)
+                    </option>
+
+                    <option value="4">
+                        Redmond (4)
+                    </option>
+
+                    <option value="5">
+                        Kirkland (5)
+                    </option>
+
+                    <option value="6">
+                        Auburn (6)
+                    </option>
+
+                    <option value="7">
+                        Federal Way (7)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- COUNTRY -->
+
+            <div class="form-group">
+
+                <label>
+                    Country
+                </label>
+
+                <select
+                    name="country"
+                    required
+                >
+
+                    <option value="">
+                        Select Country
+                    </option>
+
+                    <option value="0">
+                        USA (0)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="button-area">
+
+            <button type="submit">
+
+                Predict House Price
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+
+    <!-- Prediction -->
+
+    {% if prediction %}
+
+    <div class="result">
+
+        <h2>
+            Predicted House Price
+        </h2>
+
+        <h1>
+            ₹ {{ prediction }}
+        </h1>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Error -->
+
+    {% if error %}
+
+    <div class="error">
+
+        Error:
+        {{ error }}
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+
+</body>
+
+</html>
