@@ -489,12 +489,6 @@ gunicorn
 
 <hr>
 
-<h2>👨‍💻 Author</h2>
-
-<p>
-<b>Anuharika</b>
-</p>
-
 <h2>🔗 Project Links</h2>
 
 <h3>🌐 Deployment</h3>
@@ -514,10 +508,8 @@ gunicorn
 </p>
 
 <hr>
-
-<h2>⭐ Support</h2>
+<h2>🚀 Machine Learning → Web Application → Cloud Deployment</h2>
 
 <p>
-If you found this project useful, please consider giving the repository
-a ⭐ on GitHub.
+    <strong>Build it. Train it. Test it. Deploy it. Share it.</strong>
 </p>
