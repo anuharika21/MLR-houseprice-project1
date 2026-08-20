@@ -4,22 +4,6 @@
   <b>Machine Learning Web Application using Multiple Linear Regression</b>
 </p>
 
-<hr>
-
-<h2>🚀 Live Demo</h2>
-
-<p>
-  <a href="https://mlr-houseprice-project1-1.onrender.com">
-    <b>👉 Click Here to Open the Live Application</b>
-  </a>
-</p>
-
-<p>
-  Replace <code>YOUR_RENDER_LINK_HERE</code> with your actual Render deployment URL.
-</p>
-
-<hr>
-
 <h2>📌 About the Project</h2>
 
 <p>
@@ -508,13 +492,25 @@ gunicorn
 <h2>👨‍💻 Author</h2>
 
 <p>
-<b>Your Name</b>
+<b>Anuharika</b>
 </p>
 
+<h2>🔗 Project Links</h2>
+
+<h3>🌐 Deployment</h3>
+
 <p>
-<a href="YOUR_GITHUB_PROFILE_URL">
-GitHub Profile
-</a>
+    <a href=" https://mlr-houseprice-project1-1.onrender.com">
+        Render Deployment
+    </a>
+</p>
+
+<h3>💼 LinkedIn</h3>
+
+<p>
+    <a href="https://www.linkedin.com/in/anuharika/">
+        LinkedIn Profile
+    </a>
 </p>
 
 <hr>
